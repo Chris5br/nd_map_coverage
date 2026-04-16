@@ -1,0 +1,35 @@
+name: Daily North Data Update
+
+on:
+  schedule:
+    # 04:00 UTC entspricht 06:00 Uhr deutscher Sommerzeit (Monntags)
+    - cron: '0 4 * * *'
+  workflow_dispatch: # Das erlaubt dir, das Skript jederzeit manuell zu testen!
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository content
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install gspread oauth2client requests python-dotenv
+
+    - name: Recreate service_account.json from Secret
+      run: |
+        echo "${{ secrets.GOOGLE_JSON_BASE64 }}" | base64 --decode > service_account.json
+
+    - name: Run update script
+      env:
+        API_KEY: ${{ secrets.API_KEY }}
+        # GitHub nutzt den Key direkt aus dem Secret
+      run: python update_all_tabs.py

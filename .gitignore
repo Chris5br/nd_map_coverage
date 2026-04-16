@@ -1,0 +1,11 @@
+# Secrets and Credentials
+.env
+service_account.json
+encoded.txt
+
+# Python specific
+__pycache__/
+*.pyc
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
