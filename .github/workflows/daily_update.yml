@@ -2,8 +2,8 @@ name: Daily North Data Update
 
 on:
   schedule:
-    # 04:00 UTC corresponds to 06:00 CEST
-    - cron: '0 4 * * *'
+    # 03:00 UTC corresponds to 05:00 CEST
+    - cron: '0 3 * * *'
   workflow_dispatch: # Allows manual testing of the workflow
 
 jobs:
